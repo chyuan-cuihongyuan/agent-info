@@ -1,3 +1,7 @@
+---
+layout: default
+---
+
 # AI Agent 资讯
 
 自动收集大模型与 Agent 相关的技术文章及论文，按时间整理。
