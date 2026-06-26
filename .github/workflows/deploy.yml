@@ -19,11 +19,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/jekyll-build@v1
+      - id: config
+        uses: actions/configure-pages@v5
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          ruby-version: '3.2'
+          bundler-cache: false
+      - name: Build with Jekyll
+        run: |
+          gem install jekyll jekyll-feed jekyll-seo-tag jekyll-remote-theme jekyll-include-cache jekyll-theme-cayman
+          jekyll build --baseurl "${{ steps.config.outputs.base_path }}" --destination ./_site
       - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
 
   deploy:
     needs: build
